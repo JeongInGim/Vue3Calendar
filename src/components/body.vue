@@ -19,6 +19,7 @@ export default {
     },
     created() {
         this.getDays()
+        this.getDatesOfThisMonth()
     },
     methods: {
         getDays() {
@@ -26,11 +27,24 @@ export default {
             this.currentYear = today.getFullYear()
             this.currentMonth = today.getMonth()
             // const firstDay = new Date(this.currentYear, this.currentMonth, '01').getDay()
-            this.lastDateOfThisMonth = new Date(this.currentYear, this.currentMonth, 0)
-            console.log(this.lastDateThisMonth)
+            this.lastDateOfThisMonthObj = new Date(this.currentYear, this.currentMonth + 1, 0)
         },
         getDatesOfThisMonth() {
-
+            let datesOfWeek = []
+            const lastDateOfThisMonth = this.lastDateOfThisMonthObj.getDate()
+            console.log(lastDateOfThisMonth)
+            for (let i = 1; i <= lastDateOfThisMonth; i++) {
+                console.log(i)
+                datesOfWeek.push(i)
+                if (i % 7 === 0) {
+                    this.dates.push(datesOfWeek)
+                    datesOfWeek = []
+                }
+                if (i === lastDateOfThisMonth) {
+                    this.dates.push(datesOfWeek)
+                }
+            }
+            console.log(this.dates)
         }
     }
 }
@@ -41,7 +55,9 @@ export default {
             <th v-for="day in days">{{ day }}</th>
         </thead>
         <tbody>
-            <td>1</td>
+            <tr v-for="week in dates">
+                <td v-for="date in week">{{ date }}</td>
+            </tr>
         </tbody>
     </table>
 </template>
