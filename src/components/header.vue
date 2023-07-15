@@ -15,7 +15,8 @@ export default {
       const today = new Date()
       const currentYear = today.getFullYear()
       const currentMonth = today.getMonth()
-      return `오늘은 ${currentYear}년 ${currentMonth + 1}월입니다.`
+      const todaysDate = today.getDate()
+      return `오늘은 ${currentYear}년 ${currentMonth + 1}월 ${todaysDate}일입니다.`
     }
   }
 }
