@@ -1,13 +1,10 @@
 <script setup>
-import HelloWorld from './components/header.vue'
+import Header from './components/header.vue'
 import Body from './components/body.vue'
 </script>
 
 <template>
-  <div>
-    
-  </div>
-  <HelloWorld msg="hello world" />
+  <Header />
   <Body></Body>
 </template>
 
