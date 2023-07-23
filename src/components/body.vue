@@ -1,16 +1,16 @@
 <template>
-  <table>
-    <thead>
-      <tr>
-        <th v-for="day in DAYS">{{ day }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="week in dates">
-        <td v-for="date in week">{{ date }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="table">
+    <div class="thead">
+      <div class="thr">
+        <div class="th" v-for="day in DAYS">{{ day }}</div>
+      </div>
+    </div>
+    <div class="tbody">
+      <div class="tdr" v-for="week in dates">
+        <div class="td" v-for="date in week">{{ date }}</div>
+      </div>
+    </div>
+</div>
 
 <!--  <div class="calendar-area">
     <div class="calendar-header">
@@ -114,20 +114,28 @@ function setLastWeek() {
 </script>
 
 <style>
-table {
-    display: inline;
+.table {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
     font-size: 30px;
 }
-th, td {
+.thr, .tdr {
+    display: flex;
+    flex-direction: row;
+}
+.th, .td {
+    width: 20px;
     padding: 10px 30px;
     text-align: center;
     border: 1px solid black;
     font-size: 20px;
 }
-th:nth-child(1), td:nth-child(1) {
+.th:nth-child(1), .td:nth-child(1) {
     color: red;
 }
-th:nth-child(7), td:nth-child(7) {
+.th:nth-child(7), .td:nth-child(7) {
     color: blue;
 }
 </style>
