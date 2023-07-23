@@ -1,17 +1,4 @@
 <template>
-<!--  <table>
-    <thead>
-      <tr>
-        <th v-for="day in DAYS">{{ day }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="week in dates">
-        <td v-for="date in week">{{ date }}</td>
-      </tr>
-    </tbody>
-  </table>-->
-
   <div class="calendar">
     <div class="calendar-header">
       <div class="calendar-header-context" v-for="day in DAYS">
