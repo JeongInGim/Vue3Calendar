@@ -120,10 +120,18 @@ function setLastWeek() {
     justify-content: center;
     flex-direction: column;
     font-size: 30px;
+    row-gap: 2px;
+}
+.tbody {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2px;
 }
 .thr, .tdr {
     display: flex;
-    flex-direction: row;
+    /* flex-direction: row; */
+    column-gap: 2px;
+    row-gap: 2px;
 }
 .th, .td {
     width: 20px;
