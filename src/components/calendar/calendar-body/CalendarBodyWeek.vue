@@ -1,33 +1,47 @@
 <template>
   <div class="calendar-body-week">
-<!--    <CalendarBodyContext v-for="date in week" :date="date" />-->
+    <CalendarBodyContext v-for="(date, i) in dateList" :key="i"  :d="date" />
   </div>
 </template>
 
 <script setup>
+import {addDays} from "date-fns";
+import {onMounted, ref} from "vue";
 import CalendarBodyContext from "./CalendarBodyContext.vue";
-import {computed} from "vue";
 
 const props = defineProps({
   propsData: {
-    weekCount: 0,
-    standardDate: null,
+    weekFirstDay: null,
+    weekLastDay: null,
+    standardMonth: 0,
   }
 })
 
-console.log(props.propsData);
+const dateList = ref([]);
 
-const week = computed(() => {
-  const { weekCount, standardDate } = props.propsData;
+onMounted(foo)
 
-  standardDate.setDate(1 + (7 * weekCount));
-  // 1, 8, 15, 22, 29
+function foo() {
+  const { weekFirstDay, weekLastDay, standardMonth } = props.propsData;
+  let date = addDays(weekFirstDay, 0);
 
-  const day = standardDate.getDay();
+  while(date < weekLastDay) {
+    dateList.value.push(createData(date, standardMonth));
 
+    date = addDays(date, 1);
+  }
+}
 
+const createData = (date, standardMonth) => {
+  const month = date.getMonth() + 1;
 
-})
+  return standardMonth === month ? {
+    year: date.getFullYear(),
+    month: month,
+    date: date.getDate(),
+  } : {};
+}
+
 </script>
 
 <style scoped>

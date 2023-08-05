@@ -1,10 +1,10 @@
 <template>
-  <div class="calendar-body-week-context">{{ date }}</div>
+  <div class="calendar-body-week-context">{{ d.date }}</div>
 </template>
 
 <script setup>
 defineProps({
-  date: ''
+  d: {}
 })
 </script>
 
