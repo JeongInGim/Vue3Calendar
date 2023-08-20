@@ -8,9 +8,16 @@
 import CalendarBodyWeek from "./calendar-body/CalendarBodyWeek.vue";
 import {addDays, setDate} from "date-fns";
 
-const now = new Date();
+const props = defineProps({
+  calendarMonth: 0 // :calendarMonth 라는 이름과 일치시켜야 함
+})
+const calendarMonth = props.calendarMonth
+// console.log(calendarMonth)
 
-const createPropsData = (index) => {
+function createPropsData (index) {
+  const now = new Date();
+  now.setMonth(calendarMonth)
+
   const standardDate = setDate(now, 1 + (index * 7))
   const day = standardDate.getDay();
 
