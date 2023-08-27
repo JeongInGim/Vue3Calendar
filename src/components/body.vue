@@ -1,8 +1,8 @@
 <template>
   <div class="calendar">
     <div class="button-area">
-      <button class="button" @click="prevMonth()">지난달</button>
-      <button class="button" @click="nextMonth()">다음달</button>
+      <button class="button" @click="setPrevMonth()">지난달</button>
+      <button class="button" @click="setNextMonth()">다음달</button>
     </div>
     
     <CalendarHeader />
@@ -14,21 +14,42 @@
 import CalendarHeader from "./calendar/CalendarHeader.vue";
 import CalendarBody from "./calendar/CalendarBody.vue";
 import { ref } from "vue";
+import { useCalendarMonthStore } from '../store/store.js'
+import { storeToRefs } from 'pinia'
 
-const now = new Date()
-const calendarMonth = ref(now.getMonth())
+const store = useCalendarMonthStore()
 
-console.log("in body, calendarMonth: ", calendarMonth)
+// state는 반응형으로
+const { calendarMonth } = storeToRefs(store)
 
-function prevMonth() {
-  calendarMonth.value--
-  console.log(calendarMonth.value)
+// action은 그대로
+// 이거 안 됨
+// const { prevMonth, nextMonth } = store
+
+function setPrevMonth() {
+  store.prevMonth() // @click에 직접 갖다붙여도 됨
+  console.log('current month: ', calendarMonth.value)
 }
 
-function nextMonth() {
-  calendarMonth.value++
-  console.log(calendarMonth.value)
+function setNextMonth() {
+  store.nextMonth()
+  console.log('current month: ', calendarMonth.value)
 }
+
+// const now = new Date()
+// const calendarMonth = ref(now.getMonth())
+
+// console.log("in body, calendarMonth: ", calendarMonth)
+
+// function prevMonth() {
+//   calendarMonth.value--
+//   console.log(calendarMonth.value)
+// }
+
+// function nextMonth() {
+//   calendarMonth.value++
+//   console.log(calendarMonth.value)
+// }
 </script>
 
 <style>

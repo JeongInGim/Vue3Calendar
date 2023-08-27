@@ -7,16 +7,21 @@
 <script setup>
 import CalendarBodyWeek from "./calendar-body/CalendarBodyWeek.vue";
 import {addDays, setDate} from "date-fns";
+// import { watchEffect } from "vue";
 
 const props = defineProps({
-  calendarMonth: 0 // :calendarMonth 라는 이름과 일치시켜야 함
+  calendarMonth: 0 // body.vue에서 넘어온 :calendarMonth 라는 이름과 일치시켜야 함
 })
-const calendarMonth = props.calendarMonth
-// console.log(calendarMonth)
+
+// watchEffect(() => {
+//   const calendarMonth = props.calendarMonth
+//   // console.log('new calendarMomth: ', calendarMonth)
+// })
 
 function createPropsData (index) {
-  const now = new Date();
-  now.setMonth(calendarMonth)
+  console.log('createPropsData 실행, calendarMonth: ', props.calendarMonth)
+  const now = new Date()
+  now.setMonth(props.calendarMonth)
 
   const standardDate = setDate(now, 1 + (index * 7))
   const day = standardDate.getDay();
