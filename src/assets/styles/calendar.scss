@@ -4,6 +4,18 @@
   align-items: center;
   row-gap: 2px;
 
+  &-button-area {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    column-gap: 3px;
+
+    button {
+      background-color: #56dfa3;
+      padding: 16px;
+    }
+  }
+
   &-header-context, &-body-week-context {
     width: 84px;
     height: 30px;

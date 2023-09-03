@@ -1,39 +1,25 @@
 <template>
   <div class="calendar">
+    <div class="calendar-button-area">
+      <button @click="decrease()"><i class="icon-left"></i></button>
+      <button @click="increase()"><i class="icon-right"></i></button>
+    </div>
     <CalendarHeader />
     <CalendarBody />
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import CalendarHeader from "./calendar/CalendarHeader.vue";
 import CalendarBody from "./calendar/CalendarBody.vue";
+import {useCalendar} from "./calendar/store.js";
 
+const {decrease, increase} = useCalendar();
 
 
 </script>
 
 <style lang="scss" scoped>
-//table {
-//    display: inline;
-//    font-size: 30px;
-//}
-//th, td {
-//    padding: 10px 30px;
-//    text-align: center;
-//    border: 1px solid black;
-//    font-size: 20px;
-//}
-//th:nth-child(1), td:nth-child(1) {
-//    color: red;
-//}
-//th:nth-child(7), td:nth-child(7) {
-//    color: blue;
-//}
-
-
-/********************************/
-
 
 
 

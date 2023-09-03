@@ -6,7 +6,7 @@
 
 <script setup>
 import {addDays} from "date-fns";
-import {onMounted, ref} from "vue";
+import {ref, watchEffect} from "vue";
 import CalendarBodyContext from "./CalendarBodyContext.vue";
 
 const props = defineProps({
@@ -19,19 +19,6 @@ const props = defineProps({
 
 const dateList = ref([]);
 
-onMounted(foo)
-
-function foo() {
-  const { weekFirstDay, weekLastDay, standardMonth } = props.propsData;
-  let date = addDays(weekFirstDay, 0);
-
-  while(date < weekLastDay) {
-    dateList.value.push(createData(date, standardMonth));
-
-    date = addDays(date, 1);
-  }
-}
-
 const createData = (date, standardMonth) => {
   const month = date.getMonth() + 1;
 
@@ -41,6 +28,26 @@ const createData = (date, standardMonth) => {
     date: date.getDate(),
   } : {};
 }
+
+const initDateList = () => {
+  dateList.value = [];
+}
+
+watchEffect(() => {
+  const { propsData } = props;
+
+  const { weekFirstDay, weekLastDay, standardMonth } = propsData;
+
+  initDateList();
+
+  let date = addDays(weekFirstDay, 0);
+
+  while(date < weekLastDay) {
+    dateList.value.push(createData(date, standardMonth));
+
+    date = addDays(date, 1);
+  }
+})
 
 </script>
 

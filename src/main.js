@@ -1,6 +1,11 @@
 import { createApp } from 'vue'
 import './assets/styles/style.css'
 import './assets/styles/calendar.scss'
-import App from './App.vue'
+import './assets/icons/arrow/css/arrow.css'
 
-createApp(App).mount('#app')
+import App from './App.vue'
+import {createPinia} from "pinia";
+
+createApp(App)
+  .use(createPinia())
+  .mount('#app')

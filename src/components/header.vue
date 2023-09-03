@@ -1,25 +1,27 @@
 <template>
-  <h1>{{ title }}</h1>
+  <div class="header-title-area">
+    <h1>{{ title }}</h1>
+  </div>
 </template>
 
 <script setup>
 
-import {onMounted, reactive, ref} from "vue";
+import {computed} from "vue";
 
-const title = ref(''); // 반응형 변수
+const today = new Date()
+const currentYear = today.getFullYear()
+const currentMonth = today.getMonth()
 
-const getHeader = () => {
-  const today = new Date()
-  const currentYear = today.getFullYear()
-  const currentMonth = today.getMonth()
-  const todaysDate = today.getDate()
+const title = computed(() => `${currentYear}년 ${currentMonth + 1}월`)
 
-  title.value = `오늘은 ${currentYear}년 ${currentMonth + 1}월 ${todaysDate}일입니다.`;
-}
-
-onMounted(getHeader);
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.header-title-area {
+  display: flex;
+  align-items: center;
+  column-gap: 12px;
+  height: 6rem;
+}
 </style>

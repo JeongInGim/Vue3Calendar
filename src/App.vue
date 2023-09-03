@@ -16,5 +16,6 @@ import Body from './components/body.vue'
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  row-gap: 12px;
 }
 </style>
