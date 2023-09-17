@@ -1,24 +1,25 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 
-export const useCalendarMonthStore = defineStore('calendarMonth', () => {
+export const useThisYmStore = defineStore('thisYm', () => {
     const today = new Date()
     
     // state 정의
-    const calendarMonth = ref(today.getMonth())
+    const thisYm = reactive({
+        year: today.getFullYear(),
+        month: today.getMonth()
+    })
 
     // getter
 
     // action
     function nextMonth() {
-        calendarMonth.value++
-        console.log('in store: ', calendarMonth.value)
+        thisYm.month++
     }
-
+    
     function prevMonth() {
-        calendarMonth.value--
-        console.log('in store: ', calendarMonth.value)
+        thisYm.month--
     }
 
-    return { calendarMonth, nextMonth, prevMonth }
+    return { thisYm, nextMonth, prevMonth }
 })

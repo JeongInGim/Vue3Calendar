@@ -8,6 +8,14 @@
 import {addDays} from "date-fns";
 import {onMounted, ref, watchEffect} from "vue";
 import CalendarBodyContext from "./CalendarBodyContext.vue";
+import { useHolidayStore } from '../../calendar/store/holidayStore.js'
+import { useThisYmStore } from "../../../store/store";
+import { storeToRefs } from 'pinia'
+
+const holidayStore = useHolidayStore()
+const thisYmStore = useThisYmStore()
+const { thisYm } = storeToRefs(thisYmStore)
+const { monthHoliday } = storeToRefs(holidayStore)
 
 const props = defineProps({
   propsData: {
@@ -19,6 +27,43 @@ const props = defineProps({
 
 const dateList = ref([]);
 
+async function setHolidayList() {
+  const year = toStringYear(thisYm.value.year)
+  const month = toStringMonth(thisYm.value.month + 1)
+  await holidayStore.setHoliday(year, month)
+}
+
+function toStringYear(year) {
+  return year.toString()
+}
+
+function toStringMonth(month) {
+  return month < 10 ? '0' + month.toString() : month.toString()
+}
+
+function toStringDate(date) {
+  return date < 10 ? '0' + date.toString() : date.toString()
+}
+
+// createData()의 반환치의 isHoliday에 들어갈 값을 정하기
+function isHoliday(date) {
+  const dateToString = 
+    toStringYear(date.getFullYear()) 
+    + toStringMonth(date.getMonth() + 1) 
+    + toStringDate(date.getDate())
+  let isHoliday = false
+  let isHolidayList = []
+  for (let i=0; i<monthHoliday.value.length; i++) {
+    // isHolidayList = []
+    if (monthHoliday.value[i].locdate.toString() === dateToString) {
+      console.log(date.getDate() + '일은 ' + i + '번째 locdate에서 휴일임이 판단되었습니다.')
+      isHolidayList.push(monthHoliday.value[i].locdate)
+      console.log('isHolidayList에 ' + isHolidayList[0] + '이 저장되었습니다.')
+    }
+  }
+  return isHoliday = (isHolidayList.length > 0)
+}
+
 const createData = (date, standardMonth) => {
   const month = date.getMonth() + 1;
 
@@ -26,6 +71,7 @@ const createData = (date, standardMonth) => {
     year: date.getFullYear(),
     month: month,
     date: date.getDate(),
+    isHoliday: isHoliday(date)
   } : {};
 }
 
@@ -34,21 +80,19 @@ const createData = (date, standardMonth) => {
 // watcher: 특정 값이 바뀌는 것을 탐지하고 그 후에 이 동작을 하세요(mounted 뒤에 일어나는 일)
 // 이 어플리케이션에서는 onMounted의 역할을 대부분 포함함
 watchEffect(() => {
-  // const { propsData } = props;
-  // console.log(propsData)
   const {weekFirstDay, weekLastDay, standardMonth} = props.propsData
-  // console.log(value)
   foo(weekFirstDay, weekLastDay, standardMonth)
 })
 
 
-// onMounted: 렌더링 후 마운트 될 때 이 동작을 하세요
+// onMounted: 렌더링 후 브라우저에 컴포넌트가 부착된 후에 이 동작을 하세요
 // onMounted(foo)
 
 
 
-function foo(weekFirstDay, weekLastDay, standardMonth) {
-  console.log('foo')
+async function foo(weekFirstDay, weekLastDay, standardMonth) {
+  await setHolidayList()
+  dateList.value = []
   // const { weekFirstDay, weekLastDay, standardMonth } = props.propsData;
   let date = addDays(weekFirstDay, 0);
 

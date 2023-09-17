@@ -1,13 +1,19 @@
 <template>
-  <div class="calendar-body-week-context">{{ d.date }}</div>
+  <div class="calendar-body-week-context" :class="{isHoliday : d.isHoliday}">{{ d.date }}</div>
 </template>
 
 <script setup>
-defineProps({
+
+const props = defineProps({
   d: {}
 })
+
+// const d = props
+
 </script>
 
 <style scoped>
-
+.isHoliday {
+  color: red;
+}
 </style>

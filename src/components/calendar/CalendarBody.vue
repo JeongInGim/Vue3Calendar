@@ -10,7 +10,7 @@ import {addDays, setDate} from "date-fns";
 // import { watchEffect } from "vue";
 
 const props = defineProps({
-  calendarMonth: 0 // body.vue에서 넘어온 :calendarMonth 라는 이름과 일치시켜야 함
+  thisYm: null // body.vue에서 넘어온 :this.Ym 라는 이름과 일치시켜야 함
 })
 
 // watchEffect(() => {
@@ -19,9 +19,9 @@ const props = defineProps({
 // })
 
 function createPropsData (index) {
-  console.log('createPropsData 실행, calendarMonth: ', props.calendarMonth)
+  console.log('createPropsData 실행')
   const now = new Date()
-  now.setMonth(props.calendarMonth)
+  now.setMonth(props.thisYm.month)
 
   const standardDate = setDate(now, 1 + (index * 7))
   const day = standardDate.getDay();
