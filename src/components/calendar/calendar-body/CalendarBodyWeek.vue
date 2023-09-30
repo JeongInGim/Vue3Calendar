@@ -27,11 +27,11 @@ const props = defineProps({
 
 const dateList = ref([]);
 
-async function setHolidayList() {
-  const year = toStringYear(thisYm.value.year)
-  const month = toStringMonth(thisYm.value.month + 1)
-  await holidayStore.setHoliday(year, month)
-}
+// async function setHolidayList() {
+//   const year = toStringYear(thisYm.value.year)
+//   const month = toStringMonth(thisYm.value.month + 1)
+//   await holidayStore.setHoliday(year, month)
+// }
 
 function toStringYear(year) {
   return year.toString()
@@ -46,32 +46,35 @@ function toStringDate(date) {
 }
 
 // createData()의 반환치의 isHoliday에 들어갈 값을 정하기
-function isHoliday(date) {
+function getIsHoliday(date) {
   const dateToString = 
-    toStringYear(date.getFullYear()) 
+    toStringYear(thisYm.value.year) 
     + toStringMonth(date.getMonth() + 1) 
     + toStringDate(date.getDate())
-  let isHoliday = false
-  let isHolidayList = []
-  for (let i=0; i<monthHoliday.value.length; i++) {
-    // isHolidayList = []
-    if (monthHoliday.value[i].locdate.toString() === dateToString) {
-      console.log(date.getDate() + '일은 ' + i + '번째 locdate에서 휴일임이 판단되었습니다.')
-      isHolidayList.push(monthHoliday.value[i].locdate)
-      console.log('isHolidayList에 ' + isHolidayList[0] + '이 저장되었습니다.')
-    }
-  }
-  return isHoliday = (isHolidayList.length > 0)
+  const isHoliday = holidayStore.isHoliday(dateToString)
+  // let isHoliday = false
+  // let isHolidayList = []
+  // const holidayList = holidayStore.getHoliday()
+  // for (let i=0; i<holidayList.length; i++) {
+  //   // isHolidayList = []
+  //   if (holidayList[i].locdate.toString() === dateToString) {
+  //     console.log(date.getDate() + '일은 ' + i + '번째 locdate에서 휴일임이 판단되었습니다.')
+  //     isHolidayList.push(holidayList[i].locdate)
+  //     console.log('isHolidayList에 ' + isHolidayList[0] + '이 저장되었습니다.')
+  //   }
+  // }
+  // return isHoliday = (isHolidayList.length > 0)
+  return isHoliday
 }
 
 const createData = (date, standardMonth) => {
   const month = date.getMonth() + 1;
 
   return standardMonth === month ? {
-    year: date.getFullYear(),
+    year: thisYm.value.year,
     month: month,
     date: date.getDate(),
-    isHoliday: isHoliday(date)
+    isHoliday: getIsHoliday(date)
   } : {};
 }
 
@@ -91,7 +94,7 @@ watchEffect(() => {
 
 
 async function foo(weekFirstDay, weekLastDay, standardMonth) {
-  await setHolidayList()
+  // await setHolidayList()
   dateList.value = []
   // const { weekFirstDay, weekLastDay, standardMonth } = props.propsData;
   let date = addDays(weekFirstDay, 0);

@@ -14,11 +14,21 @@ export const useThisYmStore = defineStore('thisYm', () => {
 
     // action
     function nextMonth() {
-        thisYm.month++
+        if(thisYm.month === 11) {
+            thisYm.year++
+            thisYm.month = 0
+        } else {
+            thisYm.month++
+        }
     }
     
     function prevMonth() {
-        thisYm.month--
+        if(thisYm.month === 0) {
+            thisYm.year--
+            thisYm.month = 11
+        } else {
+            thisYm.month--
+        }
     }
 
     return { thisYm, nextMonth, prevMonth }

@@ -4,20 +4,21 @@
 
 <script setup>
 
-import {onMounted, reactive, ref} from "vue";
+import {onMounted, watchEffect, ref} from "vue";
+import { useThisYmStore } from "../store/store";
+import { storeToRefs } from "pinia";
 
 const title = ref(''); // 반응형 변수
+const thisYmStore = useThisYmStore()
+const { thisYm } = storeToRefs(thisYmStore)
 
 const getHeader = () => {
-  const today = new Date()
-  const currentYear = today.getFullYear()
-  const currentMonth = today.getMonth()
-  const todaysDate = today.getDate()
-
-  title.value = `오늘은 ${currentYear}년 ${currentMonth + 1}월 ${todaysDate}일입니다.`;
+  title.value = `${thisYm.value.year}년 ${thisYm.value.month + 1}월`;
 }
 
-onMounted(getHeader);
+watchEffect(() => {
+  getHeader()
+})
 
 </script>
 

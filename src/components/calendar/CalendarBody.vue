@@ -19,7 +19,6 @@ const props = defineProps({
 // })
 
 function createPropsData (index) {
-  console.log('createPropsData 실행')
   const now = new Date()
   now.setMonth(props.thisYm.month)
 

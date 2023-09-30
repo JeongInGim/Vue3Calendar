@@ -16,17 +16,34 @@ export const useHolidayStore = defineStore('monthHoliday', () => {
     // isHoliday: "Y"
     // locdate: 20230928
     // seq: 1
+
+    // 월단위? 연단위?
     async function setHoliday(year, month) {
         const url = `${BASE_URL}?serviceKey=${SERVICE_KEY_DECODING}&solYear=${year}&solMonth=${month}`
-
-        await axios.get(url).then(res => {
-            // console.log(res.data.response.body.items.item)
-            const holidayList = res.data.response.body.items.item
-            monthHoliday.value = holidayList
-            // return holidayList
-            // console.log(monthHoliday.value)
-        })
+        const res = await axios.get(url)
+        const holidayList = res.data.response.body.items.item
+        let oneHolidayArr = []
+        if (holidayList !== undefined && holidayList.dateKind !== undefined) {
+            // 이번달 휴일이 1일일 때
+            oneHolidayArr.push(holidayList)
+            monthHoliday.value = oneHolidayArr
+        } else {
+            // 이번달 휴일이 아예 없을 때 or 2일 이상일 때
+            monthHoliday.value = holidayList ?? []
+        }
     }
 
-    return { monthHoliday, setHoliday }
+    function isHoliday(dateToString) {
+        const holidayList = monthHoliday.value
+        let tempHolidayList = []
+        if (holidayList[0] !== undefined) {
+            for (let i=0; i<holidayList.length; i++) {
+                if (holidayList[i].locdate.toString() === dateToString) {
+                    tempHolidayList.push(holidayList[i].locdate)
+                }
+            }
+        } 
+        return tempHolidayList.length > 0
+    }
+    return { monthHoliday, setHoliday, isHoliday }
 })
